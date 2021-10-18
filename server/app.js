@@ -3,9 +3,12 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import dotenv from "dotenv";
+import v1routes from "./v1/routes";
+import { makeDBConnection } from "./config/database";
 
-const v1routes = require("./v1/routes");
 dotenv.config();
+
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -17,6 +20,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/v1", v1routes);
 
+makeDBConnection();
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
